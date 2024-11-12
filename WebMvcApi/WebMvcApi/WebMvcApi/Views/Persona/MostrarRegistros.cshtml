@@ -1,0 +1,60 @@
+﻿@model IEnumerable<WebMvcApi.Models.RegistroPersona>
+
+@{
+    ViewData["Title"] = "Registros";
+}
+
+
+
+<h2 style="color: #1A75CF;">@ViewData["Title"]</h2>
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre de la Compañía</th>
+            <th>Nombre de Contacto</th>
+            <th>Correo Electrónico</th>
+            <th>Teléfono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var registro in Model)
+        {
+            <tr>
+                <td>@registro.nombrecompania</td>
+                <td>@registro.contacto</td>
+                <td>@registro.correoElectronico</td>
+                <td>@registro.telefono</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="text-center">
+    <form action="@Url.Action("RegistroPersona","Persona")" method="get">
+        <button type="submit" class="btn">Regresar</button>
+    </form>
+</div>
+
+
+<!--  Responsive para modal -->
+<link href="/css/responsive.css" rel="stylesheet" />
+
+<!-- Estilos personalizados -->
+<style>
+    .btn {
+        background-color: #1A75CF;
+        color: white;
+        padding: 14px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>

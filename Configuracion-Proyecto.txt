@@ -1,0 +1,20 @@
+
+
+Nota:Verificar bien la ruta del proyecto para realizar la migracion automatica se implemento EntityFrameWorlk(Envio la bd en .bak y el scritp de la bd ´pr cualquier tema)
+
+
+1)Ejecutar comando en consola en la capa de DAL para crear una nueva migración
+	
+dotnet ef migrations add Inicial-CreacionTabla01 --project "C:\Esau\Proyectos\gitcloneAPI - claims\API-REST-Producto\WebAppEntity\EntityDAL\EntityDAL.csproj"
+
+2)Ejecutar comando para aplicar las migraciones pendientes a la base de datos
+
+
+dotnet ef database update --project "C:\Esau\Proyectos\gitcloneAPI - claims\API-REST-Producto\WebAppEntity\EntityDAL\EntityDAL.csproj"
+
+3)Verificar la cadena de conexion em el appsettings.json de la API REST
+
+ "DefaultConnection": "Data Source=DESKTOP-BV83E7S\\SQLEXPRESS;Initial Catalog=BDRegistro;User ID=esau;Password=sayoslp21;TrustServerCertificate=True;"
+ 
+ 
+ La web se realizo en MVC aplicando las reglas de negocio necesarias HTML,CSS,JQuery y validaciones de los campos 

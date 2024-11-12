@@ -1,0 +1,325 @@
+﻿@model RegistroPersona
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Persona</title>
+   
+    <style>
+      
+        /* Aseguramos que el contenedor ocupe toda la altura y ancho de la página */
+        body, html {
+            margin: 0; /* Eliminar márgenes predeterminados */
+            padding: 0; /* Eliminar padding predeterminado */
+            height: 100%; /* Asegura que el cuerpo ocupe toda la pantalla */
+        }
+
+        /* Contenedor principal que distribuye los elementos */
+        .container {
+            display: flex;
+            width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+            height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la página */
+            margin: 0; /* Elimina cualquier margen alrededor del contenedor */
+            padding: 0; /* Elimina cualquier padding alrededor del contenedor */
+        }
+
+        /* Div del logo que ocupa toda la sección izquierda */
+        .left-side {
+            flex: 1; /* Hace que el div ocupe todo el espacio disponible en el contenedor */
+            height: 100%; /* Asegura que el div ocupe toda la altura */
+            display: flex;
+            justify-content: flex-start; /* Alinea el contenido (imagen) a la izquierda */
+            align-items: center; /* Centra el contenido verticalmente */
+            margin: 0; /* Elimina cualquier margen dentro del div */
+            padding: 0; /* Elimina cualquier padding dentro del div */
+        }
+
+            /* Estilo de la imagen para que ocupe todo el espacio disponible */
+            .left-side img {
+                width: 100%; /* Hace que la imagen ocupe todo el ancho del div */
+                height: 100%; /* Hace que la imagen ocupe toda la altura del div */
+                object-fit: cover; /* Hace que la imagen cubra el espacio sin distorsionarse */
+            }
+
+
+        /* Estilo para el div derecho (formulario) */
+        /*.right-side {
+                    width: 50%;
+                    padding: 20px;
+                    box-sizing: border-box;
+                }*/
+
+        .right-side {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex; /* Habilitar flexbox para alineación */
+            flex-direction: column; /* Alinea los elementos del formulario en columna */
+            justify-content: center; /* Centra el contenido verticalmente */
+            height: 100vh; /* Hace que ocupe toda la altura de la página */
+        }
+
+
+        /* Estilos del formulario */
+        h1 {
+            color: #1A75CF;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 45px;
+        }
+
+        .terms-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            justify-content: flex-start;
+        }
+
+        .terms {
+            color: #1F8DFA;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .checkbox-inline {
+            margin-right: 10px;
+        }
+
+        .btn {
+            background-color: #1A75CF;
+            color: white;
+            padding: 14px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /*******************Estilo parala modal modal ***********************/
+        /* Estilo para el encabezado del modal */
+        .modal-header {
+            background-color: transparent;
+            color: #699881;
+            justify-content: center; /* Centra el contenido del encabezado */
+            text-align: center; /* Asegura que el texto esté centrado */
+            padding: 20px;
+        }
+
+        /* Estilo para el cuerpo del modal */
+        .modal-body {
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Estilo para el pie del modal */
+        .modal-footer {
+            text-align: center;
+        }
+
+        /* Estilo del botón de cerrar del modal */
+        .close {
+            display: none; /* Esto ocultará la "X" de cierre */
+        }
+
+        /* Estilo para los botones dentro del modal */
+        .modal-footer .btn-secondary {
+            background-color: #699881;
+            border: none;
+        }
+
+        /* Opcional: Personaliza el tamaño del modal */
+        .modal-dialog {
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        /* Opcional: Estilo para el fondo del modal */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+
+
+    <!--  Responsive para modal -->
+    <link href="/css/responsive.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</head>
+<body>
+
+
+
+    <!-- Cargar el modal usando jQuery -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Verifica si el modal tiene datos (es decir, si se ha guardado correctamente)
+            if (@(ViewBag.PersonaGuardada != null ? "true" : "false")) {
+               
+                $('#successModal').modal('show'); // Muestra el modal
+            }
+        });
+    </script>
+
+
+    <!-- Redirigir a otra página al hacer clic en "Aceptar" -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#redirectButton').click(function () {
+                // Redirigir a la página de registros (ajusta la URL según corresponda)
+                window.location.href = '@Url.Action("MostrarRegistros", "Persona")';
+            });
+        });
+    </script>
+
+
+    <!-- Script para habilitar/deshabilitar el botón -->
+    <script type="text/javascript">
+
+        // Función para verificar el estado del formulario
+        function verificarFormulario() {
+            // Obtiene los valores de los campos del formulario
+            var nombrecompania = document.getElementById("nombrecompania").value;
+            var contacto = document.getElementById("contacto").value;
+            var correoElectronico = document.getElementById("correoElectronico").value;
+            var telefono = document.getElementById("telefono").value;
+            var acceptTerms = document.getElementById("acceptTerms").checked;
+
+            // Muestra un alert para ver si la función se está ejecutando
+            console.log("Nombre de la compañía:", nombrecompania);
+            console.log("Contacto:", contacto);
+            console.log("Correo electrónico:", correoElectronico);
+            console.log("Teléfono:", telefono);
+            console.log("Términos aceptados:", acceptTerms);
+
+            // Verifica si todos los campos tienen valor y el checkbox está marcado
+            if (nombrecompania.trim() !== "" &&
+                contacto.trim() !== "" &&
+                correoElectronico.trim() !== "" &&
+                telefono.trim() !== "" &&
+                acceptTerms) {
+               
+                document.getElementById("btnContinuar").disabled = false;
+            } else {
+               
+                document.getElementById("btnContinuar").disabled = true;
+            }
+        }
+
+        // Configura los eventos cuando se carga la página
+        document.addEventListener("DOMContentLoaded", function () {
+            
+            document.getElementById("nombrecompania").addEventListener("input", verificarFormulario);
+            document.getElementById("contacto").addEventListener("input", verificarFormulario);
+            document.getElementById("correoElectronico").addEventListener("input", verificarFormulario);
+            document.getElementById("telefono").addEventListener("input", verificarFormulario);
+            document.getElementById("acceptTerms").addEventListener("change", verificarFormulario);
+
+         
+            verificarFormulario();
+        });
+            
+
+    </script>
+
+
+
+
+    <div class="container">
+        <!-- Div para el logo -->
+        <div class="left-side">
+            <!-- Aquí  la imagen del logo de la empresa  style="max-width: 100%; height: auto;"-->
+            <img src="~/images/logo2.png" alt="Logo de la Empresa">
+        </div>
+
+        <!-- Div para el formulario -->
+        <div class="right-side">
+            <h1>Registro de Persona</h1>
+
+            <form method="post" asp-action="RegistroPersona" enctype="multipart/form-data" id="registroForm">
+                <div class="form-group">
+                    <input type="text" asp-for="nombrecompania" class="form-control" placeholder="Nombre de la compañía" name="nombrecompania" id="nombrecompania">
+                    <span asp-validation-for="nombrecompania" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" asp-for="contacto" class="form-control" placeholder="Nombre de la persona para contacto" name="contacto" id="contacto">
+                    <span asp-validation-for="contacto" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" asp-for="correoElectronico" class="form-control" placeholder="Correo electrónico" name="correoElectronico" id="correoElectronico">
+                    <span asp-validation-for="correoElectronico" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" asp-for="telefono" class="form-control" placeholder="Teléfono" name="telefono" id="telefono">
+                    <span asp-validation-for="telefono" class="text-danger"></span>
+                </div>
+
+                <div class="terms-container">
+                    <input type="checkbox" class="checkbox-inline" name="acceptTerms" id="acceptTerms">
+                    <p style="margin: 0; font-size: 14px;">
+                        He leído y acepto el
+                        <a href="/terminos" class="terms">Aviso de privacidad/Términos y condiciones</a>.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn" id="btnContinuar" disabled>Continuar</button>
+            </form>
+        </div>
+
+
+        
+    </div>
+
+    <!-- Modal -->
+    @if (ViewBag.PersonaGuardada != null)
+    {
+        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true" style="display: block;">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <!-- Encabezado centrado-->
+                    <div class="modal-header" style="background-color: transparent; color: #699881; justify-content: center; text-align: center; padding: 20px;">
+                        <h5 class="modal-title" id="successModalLabel">Datos guardados correctamente</h5>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+                        <p><strong>Nombre de la Compañía:</strong> @ViewBag.PersonaGuardada.nombrecompania</p>
+                        <p><strong>Nombre de Contacto:</strong> @ViewBag.PersonaGuardada.contacto</p>
+                        <p><strong>Correo Electrónico:</strong> @ViewBag.PersonaGuardada.correoElectronico</p>
+                        <p><strong>Teléfono:</strong> @ViewBag.PersonaGuardada.telefono</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" id="redirectButton">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>
+
